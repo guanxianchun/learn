@@ -56,7 +56,6 @@ public class NettyUserServer {
 				.addLast(MarshallingCodeFactory.buildEncoder())  //编码handler
 				.addLast(new ReadTimeoutHandler(30))     //添加超时handler 
 				.addLast(new NettyUserServerHandler());  //数据接收handler
-				
 		}
 	}
 	/**
