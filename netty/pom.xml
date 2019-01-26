@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>learn</artifactId>
+        <groupId>com.guanxc</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>netty</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <netty.version>5.0.0.Alpha2</netty.version>
+        <junit.version>4.12</junit.version>
+        <marshalling.version>1.4.11.Final</marshalling.version>
+        <msgpack.version>0.6.12</msgpack.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- netty包 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <!-- jboss marshalling 编解码包 -->
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling</artifactId>
+            <version>${marshalling.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.marshalling</groupId>
+            <artifactId>jboss-marshalling-serial</artifactId>
+            <version>${marshalling.version}</version>
+        </dependency>
+
+        <!-- MessagePack 编解码包 -->
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>msgpack</artifactId>
+            <version>${msgpack.version}</version>
+        </dependency>
+
+        <!-- json包 -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20171018</version>
+        </dependency>
+    </dependencies>
+
+</project>
