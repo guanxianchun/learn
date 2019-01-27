@@ -12,6 +12,7 @@
         <module>netty</module>
         <module>pattern</module>
         <module>mybatis</module>
+        <module>mybatis-generator</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
