@@ -2,24 +2,28 @@ package com.martin.pattern.struct.proxy;
 
 import java.io.FileOutputStream;
 
+import org.junit.Before;
+import org.junit.Test;
 import sun.misc.ProxyGenerator;
 
 public class StaticProxyTest {
-    public static void main(String[] args) {
-        Man user = new Man("Tom");
-        testStaticProxy(user);
-        testDynamicProxy(user);
-        testCglibProxy();
+    private Man user;
+
+    @Before
+    public void setUp() {
+        user = new Man("Tom");
     }
 
-    public static void testStaticProxy(Person user) {
+    @Test
+    public void testStaticProxy() {
         System.out.println("\ntest static proxy..................");
         StaticProxy proxyObj = new StaticProxy(user);
         System.out.println(proxyObj);
         proxyObj.walk();
     }
 
-    public static void testDynamicProxy(Person user) {
+    @Test
+    public void testDynamicProxy() {
         System.out.println("\ntest dynamic proxy..................");
         DynamicProxy proxy = new DynamicProxy(user);
         Person proxyObj = (Person) proxy.getInstance();
@@ -28,7 +32,8 @@ public class StaticProxyTest {
         writeClass("$Proxy0", Person.class);
     }
 
-    public static void testCglibProxy() {
+    @Test
+    public void testCglibProxy() {
         System.out.println("\ntest cglib proxy..................");
         Student student = new Student();
         CglibProxy proxy = new CglibProxy();
@@ -37,7 +42,7 @@ public class StaticProxyTest {
         proxyObj.goToSchool();
     }
 
-    public static void writeClass(String className, Class<?> clazz) {
+    public void writeClass(String className, Class<?> clazz) {
         try {
             byte[] bytes = ProxyGenerator.generateProxyClass(className, new Class[]{clazz});
             FileOutputStream os = new FileOutputStream("./$proxy0.class");

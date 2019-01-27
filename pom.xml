@@ -15,6 +15,9 @@
         <module>mybatis-generator</module>
     </modules>
     <properties>
+        <!-- 解决maven test时控制台中文输出乱码问题 -->
+        <argLine>-Dfile.encoding=UTF-8</argLine>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netty.version>5.0.0.Alpha2</netty.version>
         <junit.version>4.12</junit.version>

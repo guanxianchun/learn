@@ -13,12 +13,12 @@
         <!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
 
         <javaTypeResolver>
-            <property name="forceBigDecimals"  value="false"/>
+            <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!--生成实体类存放路径 -->
         <javaModelGenerator targetPackage="com.guanxc.mybatis.bean" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
-            <property  name="trimStrings"  value="true"/>
+            <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="com.guanxc.mybatis.mapper" targetProject="src/main/java">
@@ -31,7 +31,7 @@
 
         <table tableName="t_user" domainObjectName="User"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false"  enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
             <columnRenamingRule searchString="^f_" replaceString=""/>
         </table>
