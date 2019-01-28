@@ -45,4 +45,22 @@ public class TestMybatis {
             sqlSession.close();
         }
     }
+    @Test
+    public void update()throws Exception{
+        SqlSession sqlSession = SessionFactoryUtil.getSession();
+        try{
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            User user = userMapper.selectByPrimaryKey(1l);
+            if (null != user) {
+                System.out.println(user.toString());
+                user.setAddress(user.getAddress()+"-");
+                userMapper.updateByPrimaryKey(user);
+                sqlSession.commit();
+            }
+        }catch (Exception e){
+            throw e;
+        }finally {
+            sqlSession.close();
+        }
+    }
 }

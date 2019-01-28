@@ -10,6 +10,7 @@
         <module name="mybatis-generator" />
         <module name="netty" />
         <module name="pattern" />
+        <module name="xmlparse" />
       </profile>
     </annotationProcessing>
   </component>
