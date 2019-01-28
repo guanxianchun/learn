@@ -7,10 +7,9 @@
     <settings>
         <setting name="lazyLoadingEnabled" value="true"/>
         <setting name="aggressiveLazyLoading" value="true"></setting>
+        <setting name="logImpl" value="SLF4J"/>
     </settings>
-    <!-- <settings>
-         <setting name="autoMappingBehavior" value="NONE"/>
-     </settings>-->
+
     <typeAliases>
         <package name="cn.alexander.entity"></package>
     </typeAliases>
