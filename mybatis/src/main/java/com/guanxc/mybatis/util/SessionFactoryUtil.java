@@ -16,8 +16,11 @@ public class SessionFactoryUtil {
     }
 
     public static synchronized SqlSession getSession() throws Exception {
-        InputStream inputStream = Resources.getResourceAsStream("mybatis-conf.xml");
-        sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        if (sessionFactory==null){
+            InputStream inputStream = Resources.getResourceAsStream("mybatis-conf.xml");
+            sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        }
+
         return sessionFactory.openSession();
     }
 
