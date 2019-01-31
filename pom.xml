@@ -14,6 +14,7 @@
         <module>mybatis</module>
         <module>mybatis-generator</module>
         <module>xml-parse</module>
+        <module>hadoop-hdfs</module>
     </modules>
     <properties>
         <!-- 解决maven test时控制台中文输出乱码问题 -->
