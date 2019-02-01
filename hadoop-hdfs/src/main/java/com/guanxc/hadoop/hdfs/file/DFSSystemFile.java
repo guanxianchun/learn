@@ -1,9 +1,8 @@
 package com.guanxc.hadoop.hdfs.file;
 
 import com.guanxc.hadoop.hdfs.util.DFSFileSystemUtil;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.IOUtils;
 
 import java.io.File;
@@ -18,13 +17,21 @@ import java.io.OutputStream;
  * @Date: 19-1-31 下午12:24
  */
 public class DFSSystemFile {
+
+    private FileSystem fileSystem;
+
+    public DFSSystemFile()throws Exception{
+        fileSystem = DFSFileSystemUtil.getFileSystem();
+    }
+
+    public Configuration getConfiguration(){
+        return fileSystem.getConf();
+    }
     /**
      * 读取HDFS上的文件内容
      * @param fileName
      */
     public void readFile(String fileName, OutputStream outputStream)throws Exception{
-        //获取HDFS的文件系统对象
-        FileSystem fileSystem = DFSFileSystemUtil.getFileSystem();
         //包装成HDF文件系统的路径
         Path path = new Path(fileName);
 
@@ -42,11 +49,9 @@ public class DFSSystemFile {
 
     }
 
-    public void uploadFile(String uploadFileName,String distFileName)throws Exception{
-        //获取HDFS的文件系统对象
-        FileSystem fileSystem = DFSFileSystemUtil.getFileSystem();
+    public void uploadFile(String uploadFileName,String destFileName)throws Exception{
         //包装成HDF文件系统的路径
-        Path path = new Path(distFileName);
+        Path path = new Path(destFileName);
 
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -66,8 +71,6 @@ public class DFSSystemFile {
     }
 
     public boolean deleteFile(String fileName) throws Exception{
-        //获取HDFS的文件系统对象
-        FileSystem fileSystem = DFSFileSystemUtil.getFileSystem();
         //包装成HDF文件系统的路径
         Path path = new Path(fileName);
         //判断文件是否存在，存在则删除
@@ -79,5 +82,20 @@ public class DFSSystemFile {
         return deleted;
     }
 
+    public boolean mkdirs(String dictory)throws Exception{
+        //包装成HDF文件系统的路径
+        Path path = new Path(dictory);
+        return fileSystem.mkdirs(path);
 
+    }
+
+    public void listFile(String dictory)throws Exception{
+        //包装成HDF文件系统的路径
+        Path path = new Path(dictory);
+        FileStatus[] status = fileSystem.listStatus(path);
+        Path[] paths = FileUtil.stat2Paths(status);
+        for (Path p:paths){
+            System.out.println(p);
+        }
+    }
 }

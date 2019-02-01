@@ -20,19 +20,26 @@ public class HDFSFileSystemTest {
     @Test
     public void testUploadFIle()throws Exception{
         String uploadFileName = "/opt/git/learn/hadoop-hdfs/src/main/resources/core-site.xml";
-        String distFileName = "/user/guanxc/hadoop/upload/upload.core-site.xml";
+        String destFileName = "/user/guanxc/hadoop/upload/upload.core-site.xml";
         DFSSystemFile systemFile = new DFSSystemFile();
-        systemFile.uploadFile(uploadFileName,distFileName);
+        systemFile.uploadFile(uploadFileName,destFileName);
         System.out.println("------------------输出上传到HDFS文件系统上的文件内容------------------");
-        systemFile.readFile(distFileName,System.out);
+        systemFile.readFile(destFileName,System.out);
     }
 
     @Test
     public void testDeleteFile() throws Exception{
-        String distFileName = "/user/guanxc/hadoop/upload/upload.core-site.xml";
+        String destFileName = "/user/guanxc/hadoop/upload/upload.core-site.xml";
         DFSSystemFile systemFile = new DFSSystemFile();
         System.out.println("===================删除HDFS上的文件==========================");
-        boolean deleted = systemFile.deleteFile(distFileName);
-        System.out.println("文件： "+distFileName+" 删除"+(deleted?"成功":"失败"));
+        boolean deleted = systemFile.deleteFile(destFileName);
+        System.out.println("文件： "+destFileName+" 删除"+(deleted?"成功":"失败"));
+    }
+
+    @Test
+    public void testListFile()throws Exception{
+        DFSSystemFile systemFile = new DFSSystemFile();
+        System.out.println("============list files===================");
+        systemFile.listFile("/user/guanxc/hadoop/upload");
     }
 }
