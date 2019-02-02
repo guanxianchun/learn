@@ -7,6 +7,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
 import org.apache.hadoop.mapreduce.Job;
@@ -33,13 +34,13 @@ public class WordCountMapReduce extends Configured implements Tool {
 
     private static Logger logger = LoggerFactory.getLogger(WordCountMapReduce.class);
 
-    public static class WordCountMapper extends Mapper{
+    public static class WordCountMapper extends Mapper<LongWritable,Text,Text,LongWritable>{
 
-        private final static IntWritable one = new IntWritable(1);
+        private final static LongWritable one = new LongWritable(1);
 
         private Text mapOutputKey = new Text();
 
-        public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Mapper<LongWritable,Text,Text,LongWritable>.Context context) throws IOException, InterruptedException {
             String line = value.toString();
             StringTokenizer tokenizer = new StringTokenizer(line);
             while (tokenizer.hasMoreTokens()){
@@ -50,16 +51,16 @@ public class WordCountMapReduce extends Configured implements Tool {
         }
     }
 
-    public static class WordCountReduce extends Reducer{
+    public static class WordCountReduce extends Reducer<Text,LongWritable,Text,LongWritable>{
 
-        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<LongWritable> values, Reducer<Text,LongWritable,Text,LongWritable>.Context context) throws IOException, InterruptedException {
             //
             int sum=0;
-            for (IntWritable value:values){
+            for (LongWritable value:values){
                 sum+= value.get();
             }
             logger.info("=========================>"+key+": "+sum);
-            context.write(key,new IntWritable(sum));
+            context.write(key,new LongWritable(sum));
         }
     }
 
@@ -92,8 +93,14 @@ public class WordCountMapReduce extends Configured implements Tool {
         FileInputFormat.addInputPath(job,inputPath);
         //4.2 设置Map处理类
         job.setMapperClass(WordCountMapper.class);
-        //4.3 设置reduce处理类
+        //4.3 设置Mapper输出的key-value数据类型
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(LongWritable.class);
+        //4.4 设置reduce处理类
         job.setReducerClass(WordCountReduce.class);
+        //4.5 设置reducer类的输出key-vlaue的数据类型
+        job.setOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(LongWritable.class);
         //4.4 设置输出路径
         FileOutputFormat.setOutputPath(job,new Path(args[1]));
         return job.waitForCompletion(true)?0:1;

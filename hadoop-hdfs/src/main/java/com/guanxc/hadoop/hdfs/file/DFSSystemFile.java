@@ -98,4 +98,10 @@ public class DFSSystemFile {
             System.out.println(p);
         }
     }
+
+    public boolean isExists(String fileName)throws Exception{
+        Path path = new Path(fileName);
+        return fileSystem.exists(path);
+
+    }
 }
