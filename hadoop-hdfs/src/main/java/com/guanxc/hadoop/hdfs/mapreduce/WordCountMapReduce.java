@@ -71,17 +71,8 @@ public class WordCountMapReduce extends Configured implements Tool {
      * @throws Exception
      */
     public int run(String[] args) throws Exception {
-        //run before delete output dictory
-        DFSSystemFile systemFile = new DFSSystemFile();
-        boolean deleted = systemFile.deleteFile(args[1]);
-        System.out.println(deleted);
-        try{
-            Thread.sleep(2000);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         //1.  得到配置
-        Configuration configuration = systemFile.getConfiguration();
+        Configuration configuration = new Configuration();
         //2. 创建任务Job
         Job job = Job.getInstance(configuration,this.getClass().getSimpleName());
         //3. 设置运行jar
@@ -106,10 +97,5 @@ public class WordCountMapReduce extends Configured implements Tool {
         return job.waitForCompletion(true)?0:1;
 
     }
-
-    public static void main(String[] args) throws Exception{
-        args= new String[]{"/user/guanxc/hadoop/input","/user/guanxc/hadoop/output"};
-        WordCountMapReduce mapReduce = new WordCountMapReduce();
-        mapReduce.run(args);
-    }
+    
 }
