@@ -1,6 +1,8 @@
 package com.guanxc.hadoop.hdfs.file;
 
 import com.guanxc.hadoop.hdfs.mapreduce.WordCountMapReduce;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.util.ToolRunner;
 import org.junit.Test;
 
 public class WordCountMapReduceTest {
@@ -9,7 +11,7 @@ public class WordCountMapReduceTest {
     public void run()throws Exception{
         String[] args= new String[]{"/user/guanxc/hadoop/input","/user/guanxc/hadoop/output"};
         WordCountMapReduce mapReduce = new WordCountMapReduce();
-        mapReduce.run(args);
+        ToolRunner.run(new Configuration(),mapReduce,args);
 
         readWordCountMapReduceOut(args[1]);
 

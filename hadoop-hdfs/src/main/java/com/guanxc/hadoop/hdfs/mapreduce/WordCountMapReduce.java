@@ -45,6 +45,7 @@ public class WordCountMapReduce extends Configured implements Tool {
             StringTokenizer tokenizer = new StringTokenizer(line);
             while (tokenizer.hasMoreTokens()){
                 String word = tokenizer.nextToken();
+                logger.info("map ====> "+word+":"+one.get());
                 mapOutputKey.set(word);
                 context.write(mapOutputKey,one);
             }
@@ -59,7 +60,7 @@ public class WordCountMapReduce extends Configured implements Tool {
             for (LongWritable value:values){
                 sum+= value.get();
             }
-            logger.info("=========================>"+key+": "+sum);
+            logger.info("reduce =========================>"+key+": "+sum);
             context.write(key,new LongWritable(sum));
         }
     }
@@ -72,9 +73,9 @@ public class WordCountMapReduce extends Configured implements Tool {
      */
     public int run(String[] args) throws Exception {
         //1.  得到配置
-        Configuration configuration = new Configuration();
+//        Configuration configuration = new Configuration();
         //2. 创建任务Job
-        Job job = Job.getInstance(configuration,this.getClass().getSimpleName());
+        Job job = Job.getInstance(getConf(),this.getClass().getSimpleName());
         //3. 设置运行jar
         job.setJarByClass(this.getClass());
         //4. set job
@@ -97,5 +98,5 @@ public class WordCountMapReduce extends Configured implements Tool {
         return job.waitForCompletion(true)?0:1;
 
     }
-    
+
 }
