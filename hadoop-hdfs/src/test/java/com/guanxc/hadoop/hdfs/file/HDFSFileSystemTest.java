@@ -14,7 +14,10 @@ public class HDFSFileSystemTest {
     public void testReadFile()throws Exception{
         DFSSystemFile systemFile = new DFSSystemFile();
         System.out.println("================输出HDFS文件系统上的文件内容===========");
-        systemFile.readFile("/user/guanxc/hadoop/input/word.txt",System.out);
+        String fileName = "/user/guanxc/hadoop/input/word.txt";
+        if (systemFile.isExists(fileName)) {
+            systemFile.readFile(fileName, System.out);
+        }
     }
 
     @Test
