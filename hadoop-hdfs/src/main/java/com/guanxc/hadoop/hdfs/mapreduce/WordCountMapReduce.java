@@ -7,6 +7,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
 import org.apache.hadoop.mapreduce.Job;
@@ -33,7 +34,7 @@ public class WordCountMapReduce extends Configured implements Tool {
 
     private static Logger logger = LoggerFactory.getLogger(WordCountMapReduce.class);
 
-    public static class WordCountMapper extends Mapper{
+    public static class WordCountMapper extends Mapper<IntWritable,Text,Text,IntWritable>{
 
         private final static IntWritable one = new IntWritable(1);
 
@@ -50,7 +51,7 @@ public class WordCountMapReduce extends Configured implements Tool {
         }
     }
 
-    public static class WordCountReduce extends Reducer{
+    public static class WordCountReduce extends Reducer<Text,IntWritable,Text,IntWritable>{
 
         public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
             //
@@ -96,6 +97,10 @@ public class WordCountMapReduce extends Configured implements Tool {
         job.setReducerClass(WordCountReduce.class);
         //4.4 设置输出路径
         FileOutputFormat.setOutputPath(job,new Path(args[1]));
+
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+
         return job.waitForCompletion(true)?0:1;
 
     }
