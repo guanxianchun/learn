@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hadoop-hdfs" />
         <module name="mybatis" />
         <module name="mybatis-generator" />
         <module name="netty" />
         <module name="pattern" />
+        <module name="xml-parse" />
         <module name="xmlparse" />
       </profile>
     </annotationProcessing>
