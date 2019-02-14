@@ -7,6 +7,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
 import org.apache.hadoop.mapreduce.Job;
@@ -32,34 +33,35 @@ import java.util.StringTokenizer;
 public class WordCountMapReduce extends Configured implements Tool {
 
     private static Logger logger = LoggerFactory.getLogger(WordCountMapReduce.class);
+    
+    public static class WordCountMapper extends Mapper<LongWritable,Text,Text,LongWritable>{
 
-    public static class WordCountMapper extends Mapper{
-
-        private final static IntWritable one = new IntWritable(1);
+        private final static LongWritable one = new LongWritable(1);
 
         private Text mapOutputKey = new Text();
 
-        public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(LongWritable key, Text value, Mapper<LongWritable,Text,Text,LongWritable>.Context context) throws IOException, InterruptedException {
             String line = value.toString();
             StringTokenizer tokenizer = new StringTokenizer(line);
             while (tokenizer.hasMoreTokens()){
                 String word = tokenizer.nextToken();
+                logger.info("map ====> "+word+":"+one.get());
                 mapOutputKey.set(word);
                 context.write(mapOutputKey,one);
             }
         }
     }
 
-    public static class WordCountReduce extends Reducer{
+    public static class WordCountReduce extends Reducer<Text,LongWritable,Text,LongWritable>{
 
-        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<LongWritable> values, Reducer<Text,LongWritable,Text,LongWritable>.Context context) throws IOException, InterruptedException {
             //
             int sum=0;
-            for (IntWritable value:values){
+            for (LongWritable value:values){
                 sum+= value.get();
             }
-            logger.info("=========================>"+key+": "+sum);
-            context.write(key,new IntWritable(sum));
+            logger.info("reduce =========================>"+key+": "+sum);
+            context.write(key,new LongWritable(sum));
         }
     }
 
@@ -70,19 +72,10 @@ public class WordCountMapReduce extends Configured implements Tool {
      * @throws Exception
      */
     public int run(String[] args) throws Exception {
-        //run before delete output dictory
-        DFSSystemFile systemFile = new DFSSystemFile();
-        boolean deleted = systemFile.deleteFile(args[1]);
-        System.out.println(deleted);
-        try{
-            Thread.sleep(2000);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         //1.  得到配置
-        Configuration configuration = systemFile.getConfiguration();
+//        Configuration configuration = new Configuration();
         //2. 创建任务Job
-        Job job = Job.getInstance(configuration,this.getClass().getSimpleName());
+        Job job = Job.getInstance(getConf(),this.getClass().getSimpleName());
         //3. 设置运行jar
         job.setJarByClass(this.getClass());
         //4. set job
@@ -92,17 +85,22 @@ public class WordCountMapReduce extends Configured implements Tool {
         FileInputFormat.addInputPath(job,inputPath);
         //4.2 设置Map处理类
         job.setMapperClass(WordCountMapper.class);
-        //4.3 设置reduce处理类
+        //4.3 设置Mapper输出的key-value数据类型
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(LongWritable.class);
+        //4.4 设置reduce处理类
         job.setReducerClass(WordCountReduce.class);
+        //4.5 设置reducer类的输出key-vlaue的数据类型
+        job.setOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(LongWritable.class);
         //4.4 设置输出路径
         FileOutputFormat.setOutputPath(job,new Path(args[1]));
+
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+
         return job.waitForCompletion(true)?0:1;
 
     }
 
-    public static void main(String[] args) throws Exception{
-        args= new String[]{"/user/guanxc/hadoop/input","/user/guanxc/hadoop/output"};
-        WordCountMapReduce mapReduce = new WordCountMapReduce();
-        mapReduce.run(args);
-    }
 }
