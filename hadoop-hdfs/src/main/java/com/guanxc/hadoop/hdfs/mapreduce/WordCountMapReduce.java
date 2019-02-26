@@ -33,7 +33,7 @@ import java.util.StringTokenizer;
 public class WordCountMapReduce extends Configured implements Tool {
 
     private static Logger logger = LoggerFactory.getLogger(WordCountMapReduce.class);
-    
+
     public static class WordCountMapper extends Mapper<LongWritable,Text,Text,LongWritable>{
 
         private final static LongWritable one = new LongWritable(1);
@@ -95,10 +95,6 @@ public class WordCountMapReduce extends Configured implements Tool {
         job.setMapOutputValueClass(LongWritable.class);
         //4.4 设置输出路径
         FileOutputFormat.setOutputPath(job,new Path(args[1]));
-
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
-
         return job.waitForCompletion(true)?0:1;
 
     }
