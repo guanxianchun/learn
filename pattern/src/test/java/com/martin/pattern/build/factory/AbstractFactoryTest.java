@@ -1,7 +1,7 @@
 package com.martin.pattern.build.factory;
 
 import com.martin.pattern.builder.factory.abst.AbstractFactory;
-import com.martin.pattern.builder.factory.abst.CarFactory;
+import com.martin.pattern.builder.factory.abst.JavaFactory;
 import org.junit.Test;
 
 /**
@@ -14,8 +14,9 @@ public class AbstractFactoryTest {
     @Test
     public void test() {
         //用户通过MilkFactory对象的相应的方法就可以获取相应的产品
-        AbstractFactory factory = new CarFactory();
+        AbstractFactory factory = new JavaFactory();
         //在这里用户只有选择的权力，程序具有很好的健壮性
-        System.out.println(factory.getDaZhongCar());
+        factory.getCourse().record();
+        factory.getNote().note();
     }
 }

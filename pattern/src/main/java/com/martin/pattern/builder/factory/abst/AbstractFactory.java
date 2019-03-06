@@ -1,6 +1,7 @@
 package com.martin.pattern.builder.factory.abst;
 
-import com.martin.pattern.builder.bean.Car;
+import com.martin.pattern.builder.bean.ICourse;
+import com.martin.pattern.builder.bean.INote;
 
 /**
  * 抽象工厂方法：
@@ -12,9 +13,19 @@ import com.martin.pattern.builder.bean.Car;
  * @Description
  */
 public abstract class AbstractFactory {
-
-    public abstract Car getFengTianCar();
-
-    public abstract Car getDaZhongCar();
+    /**
+     * 功能描述
+     * @Description 定义获取课程接口
+     * @Author guanxianchun
+     * @Date 2019/3/6 23:17
+     */
+    public abstract ICourse getCourse();
+    /**
+     * 功能描述
+     * @Description 定义获取笔记接口
+     * @Author guanxianchun
+     * @Date 2019/3/6 23:17
+     */
+    public abstract INote getNote();
 
 }

@@ -82,6 +82,6 @@ public class SingletonTest {
 
     @Test
     public void testRegister() {
-        System.out.println(BeanFactory.getBean("com.martin.pattern.builder.bean.DaZhongCar"));
+        System.out.println(BeanFactory.getBean("com.martin.pattern.builder.bean.JavaCourse"));
     }
 }

@@ -1,6 +1,6 @@
 package com.martin.pattern.builder.factory.func;
 
-import com.martin.pattern.builder.bean.Car;
+import com.martin.pattern.builder.bean.ICourse;
 
 /**
  * 工厂方法：专业的人做传业的事情
@@ -13,6 +13,6 @@ import com.martin.pattern.builder.bean.Car;
  */
 public interface Factory {
     //工厂就是生产产品的，提供统一的产品出口
-    Car getCar();
+    ICourse createCourse();
 
 }

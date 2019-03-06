@@ -1,8 +1,7 @@
 package com.martin.pattern.builder.factory.simple;
-
-import com.martin.pattern.builder.bean.Car;
-import com.martin.pattern.builder.bean.DaZhongCar;
-import com.martin.pattern.builder.bean.FengTianCar;
+import com.martin.pattern.builder.bean.ICourse;
+import com.martin.pattern.builder.bean.JavaCourse;
+import com.martin.pattern.builder.bean.PythonCourse;
 
 /**
  * 简单工厂模式：小作坊(什么都可以生产，三无产品)
@@ -14,13 +13,13 @@ import com.martin.pattern.builder.bean.FengTianCar;
  */
 public class SimpleFactory {
 
-    public Car getCar(String name) {
-        if ("丰田汽车".equals(name)) {
-            return new FengTianCar();
-        } else if ("大众汽车".equals(name)) {
-            return new DaZhongCar();
+    public ICourse getCar(String name) {
+        if ("Java".equals(name)) {
+            return new JavaCourse();
+        } else if ("Python".equals(name)) {
+            return new PythonCourse();
         } else {
-            System.out.println("不能生产所需的汽车");
+            System.out.println("不能生产所需的课程");
             return null;
         }
 

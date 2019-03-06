@@ -1,7 +1,7 @@
 package com.martin.pattern.build.factory;
 
-import com.martin.pattern.builder.factory.func.DaZhongCaFactory;
 import com.martin.pattern.builder.factory.func.Factory;
+import com.martin.pattern.builder.factory.func.JavaCourseFactory;
 import org.junit.Test;
 
 /**
@@ -15,7 +15,7 @@ public class FactoryFuncTest {
     public void test() {
         //用户要产品先要选择相应的工厂
         //用户要配置相应的工厂，可能存在配置错误的问题
-        Factory factory = new DaZhongCaFactory();
-        System.out.println(factory.getCar());
+        Factory factory = new JavaCourseFactory();
+        factory.createCourse().record();
     }
 }
